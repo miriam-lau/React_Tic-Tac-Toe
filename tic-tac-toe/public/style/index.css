@@ -1,0 +1,28 @@
+html, body, div, h1, button {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  text-align: inherit;
+  text-decoration: inherit;
+  color: inherit;
+  background: transparent;
+  list-style: none;
+}
+
+
+h1 {
+  text-align: center;
+  font-size: 50px;
+}
+
+.game-board {
+  text-align: center;
+}
+
+.square {
+  border-radius: 0;
+  border: 1px solid black;
+  height: 100px;
+  width: 100px;
+}
