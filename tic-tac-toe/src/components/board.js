@@ -1,51 +1,25 @@
 import React, { Component } from 'react';
 import Square from './square';
-import { calculateWinner, isOver } from '../util/helper_methods';
-
-// button to click to play again
 
 class Board extends Component {
-  constructor(props) {
-    super(props)
-    const initialSquares = new Array(9).fill(null);
-    this.state = { squares: initialSquares, isXNext: true };
-  }
-
+  /*
+    Renders a square on the game board and passes props to the Square component
+    @param {int} index of square
+    @param {function(onClick)} handleClick function from index.js
+    return {component} Square component
+  */
   renderSquare(i) {
     return (
       <Square
-        value={ this.state.squares[i] }
-        onClick={ () => this.handleClick(i) }
+        value={ this.props.squares[i] }
+        onClick={ () => this.props.onClick(i) }
       />
     );
   }
 
-  handleClick(i) {
-    const newSquares = this.state.squares.slice();
-
-    if (calculateWinner(newSquares) || newSquares[i]) {
-      return;
-    }
-
-    newSquares[i] = this.state.isXNext ? 'X' : 'O';
-    this.setState({ squares: newSquares, isXNext: !this.state.isXNext });
-  }
-
   render() {
-    const winner = calculateWinner(this.state.squares);
-    let status;
-
-    if (winner) {
-      status = `Winner is Player ${winner}`;
-    } else if (isOver(this.state.squares)) {
-      status = 'It\'s a Tie';
-    } else {
-      status = this.state.isXNext ? 'Next Player: X' : 'Next Player: O';
-    }
-
     return(
       <div>
-        <section className="status">{ status }</section>
         <section className="board-row">
           { this.renderSquare(0) }
           { this.renderSquare(1) }

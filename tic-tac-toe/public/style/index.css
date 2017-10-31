@@ -1,6 +1,11 @@
 .game {
-  padding: 50px;
-  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("../used-board-games-1.jpg");
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Baloo';
+  text-align: center;
+  padding: 50px 50px 80px 50px;
+  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("../game_background.jpg");
   -webkit-background-size: cover;
   -moz-background-size:  cover;
   -o-background-size: cover;
@@ -8,46 +13,79 @@
 }
 
 h1 {
-  text-align: center;
-  font-family: 'Baloo';
   font-size: 80px;
   color: white;
+  margin: 0;
 }
 
 .game-board {
   margin: auto;
-  text-align: center;
   width: 450px;
   padding: 30px;
   background-color: #808080;
   border-radius: 5px;
 }
 
-.status {
-  font-family: 'Baloo';
-  font-size: 30px;
+.game-info {
+  height: 120px;
   color: white;
-  padding-bottom: 30px;
+}
+
+.play-again-button {
+  border-radius: 5px;
+  border: 2px solid white;
+  background-color: black;
+  font-size: 20px;
+  width: 200px;
+  margin: auto;
+  cursor: pointer;
+}
+
+.play-again-button:hover {
+  cursor: pointer;
+  border: 2px solid #808080;
+  background-color: #e6e6e6;
+  color: black;
+  transition: 0.3s;
+}
+
+.status {
+  font-size: 30px;
+  padding-bottom: 20px;
+}
+
+.error {
+  font-size: 20px;
 }
 
 .board-row {
   display: flex;
+  border-bottom: 2px solid black;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+}
+
+.board-row:first-child {
+  border-top: 2px solid black;
 }
 
 .square {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Baloo';
   font-size: 60px;
   background-color: white;
-  border-radius: 0;
-  border: 1px solid black;
+  border-right: 2px solid black;
   height: 150px;
   width: 150px;
+}
+
+.square:last-child {
+  border-right: none;
 }
 
 .square:hover {
   cursor: pointer;
   background-color: #e6e6e6;
+  transition: 0.3s;
 }
