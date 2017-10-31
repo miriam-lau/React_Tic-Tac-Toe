@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Square from './square';
 import { calculateWinner, isOver } from '../util/helper_methods';
 
+// button to click to play again
+
 class Board extends Component {
   constructor(props) {
     super(props)
