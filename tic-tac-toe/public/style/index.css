@@ -10,19 +10,51 @@ html, body, div, h1, button {
   list-style: none;
 }
 
+.game {
+  padding: 50px;
+  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("../used-board-games-1.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size:  cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 
 h1 {
   text-align: center;
+  font-family: 'Baloo';
   font-size: 50px;
+  color: white;
 }
 
 .game-board {
+  margin: auto;
   text-align: center;
+  width: 450px;
+  padding: 30px;
+  background-color: #00bfff;
+  border-radius: 5px;
+}
+
+.status {
+  font-family: 'Baloo';
+  font-size: 30px;
+  padding-bottom: 30px;
+}
+
+.board-row {
+  /*background-color: red;*/
 }
 
 .square {
+  font-family: 'Baloo';
+  font-size: 60px;
+  background-color: white;
   border-radius: 0;
   border: 1px solid black;
-  height: 100px;
-  width: 100px;
+  height: 150px;
+  width: 150px;
+}
+
+.square:hover {
+  cursor: pointer;
 }
