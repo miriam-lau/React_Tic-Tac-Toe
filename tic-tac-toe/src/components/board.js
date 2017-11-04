@@ -4,9 +4,8 @@ import Square from './square';
 class Board extends Component {
   /*
     Renders a square on the game board and passes props to the Square component
-    @param {int} index of square
-    @param {function(onClick)} handleClick function from index.js
-    return {component} Square component
+    @param {int squareIndex} index of square
+    @return {component} Square component
   */
   renderSquare(squareIndex) {
     let isWinningSquare = false;
@@ -19,7 +18,6 @@ class Board extends Component {
 
     return (
       <Square
-        index={ squareIndex }
         isWinningSquare={ isWinningSquare }
         isGameOver={ this.props.isGameOver }
         value={ this.props.squares[squareIndex] }

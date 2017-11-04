@@ -2,9 +2,11 @@ import React from 'react';
 
 /*
   Renders a square on the game board.
-  @param {int} index position of square
-  @param {boolean} true is square is a winningSquare, else false
-  @param {function{onClick}} calls handleClick function in index.js
+  @param {props} the list of props are:
+    {boolean} true is square is a winningSquare
+    {boolean} true if game is over
+    {function onClick} calls handleClick function in index.js
+  @return {html element div} square 
 */
 const Square = (props) => {
   let gameOverStatus = "";
