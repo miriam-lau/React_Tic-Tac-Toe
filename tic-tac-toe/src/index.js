@@ -16,14 +16,26 @@ class Game extends Component {
   constructor(props) {
     super(props)
 
-    this.restartGame = this.restartGame.bind(this);
-    this.restartGame();
+    this.state = {
+      squares: new Array(9).fill(null), // {array} 1-D array with squares 0 to 9
+        // row 1: squares 0 - 2, row 2: squares 3 - 5, row 3: squares 6 - 8
+      currentPlayer: PLAYERS.ONE, // {char} player is either 'X' or 'O'
+      error: "", // {string} error message if user clicks on a non-null-square
+      isGameOver: false,
+      winner: null,
+      winningSquares: [] // {array} indices of winning squares
+    };
+
+    // why does restartGame need to bind this and not the other functions?
+     this.restartGame = this.restartGame.bind(this);
+    //  this.restartGame();  warning: called this.setState on a unmounted component
   }
 
   /*
-    Returns a winner and winning combo if one exists.
-    @return {array{char, array} | null} the symbol of the winner and the indices
-      of the winning combo or null if there is no winner.
+    Updates the state properties if there is a winner:
+      "isGameOver" to true
+      "winner" to current player's char
+      "winningSquares" to the WINNING_COMBOS array
   */
   calculateWinner() {
     const WINNING_COMBOS = [
@@ -46,39 +58,40 @@ class Game extends Component {
       let currentChar = squares[WINNING_COMBOS[i][0]];
       if (currentChar === squares[WINNING_COMBOS[i][1]] &&
           currentChar === squares[WINNING_COMBOS[i][2]]) {
-        return [currentChar, WINNING_COMBOS[i]];
+        this.setState({
+          isGameOver: true,
+          winner: currentChar,
+          winningSquares: WINNING_COMBOS[i],
+        });
       }
     }
-
-    return null;
   }
 
   /*
-    Checks if all squares in the board are either 'X' or 'O'.
-    @return {boolean} true if all squares are not null
+    Updates "isGameOver" property in state to true if game board has no more
+      non-null values.
   */
   isGameBoardFull() {
     for (let i = 0; i < this.state.squares.length; i++) {
       if (this.state.squares[i] === null) {
-        return false;
+        return;
       }
     }
-    return true;
+    this.setState({ isGameOver: true });
   }
 
   /*
     Reinitialize the starting state of game.
   */
   restartGame() {
-    this.state = {
-      squares: new Array(9).fill(null), // {array} 1-D array with squares 0 to 9
-        // row 1: squares 0 - 2, row 2: squares 3 - 5, row 3: squares 6 - 8
-      currentPlayer: PLAYERS.ONE, // {char} player is either 'X' or 'O'
-      error: "", // {string} error message if user clicks on a non-null-square
+    this.setState({
+      squares: new Array(9).fill(null),
+      currentPlayer: PLAYERS.ONE,
+      error: "",
       isGameOver: false,
       winner: null,
-      winningSquares: [] // {array} indices of winning squares
-    };
+      winningSquares: []
+    });
   }
 
   /*
@@ -97,10 +110,14 @@ class Game extends Component {
   }
 
   /*
-    Updates state with a new array of squares with the value of a square to
-      either 'X' or 'O', an error message if a user clicks on a square with a
-      non-null value, and the currentPlayer to the next player char.
-    @param {int} i is the index of square
+    Updates state properties:
+      "squares" with a new array of squares with the value of a square to
+        either 'X' or 'O'
+      "error" an error message if a user clicks on a square with a non-null
+        value
+      "currentPlayer" to the next player char
+    Checks if there is a winner or if the game board is full.
+    @param {int i} the index of square
   */
   handleClick(i) {
     this.setState({ error: "" });
@@ -116,38 +133,23 @@ class Game extends Component {
     }
 
     newSquares[i] = this.state.currentPlayer;
-    this.setState({
-      squares: newSquares,
-      currentPlayer: this.getNextPlayer()
-    });
-
-    // move from render function
-    // should calculate if there is a winner here
-    // should have is gameboardfull;
+    this.setState({ squares: newSquares, currentPlayer: this.getNextPlayer()},
+      () => {
+        this.calculateWinner();
+        this.isGameBoardFull();
+      }
+    );
   }
 
   render() {
-    const winner = this.calculateWinner();
-    const gameBoardFull = this.isGameBoardFull();
     let status = "";
-    let winningSquares = []; // should be state
-    let isGameOver = false; // should be state
 
-    // this should be in handle click function- it should check the state and
-    // then update the status
-
-    if (winner !== null) {
-      status = `Game Over: Winner is Player ${winner[0]}`;
-      winningSquares = winner[1];
-      isGameOver = true;
-    } else if (gameBoardFull) {
+    if (this.state.winner !== null) {
+      status = `Game Over: Winner is Player ${this.state.winner}`;
+    } else if (this.state.isGameOver) {
       status = "It's a Tie!";
-      isGameOver = true;
     } else {
-      // use getNextPlayer function
-      let nextPlayer = (this.state.currentPlayer === PLAYERS.ONE) ?
-          PLAYERS.TWO : PLAYERS.ONE;
-      status = `Next Player: ${nextPlayer}`;
+      status = `Next Player: ${this.getNextPlayer()}`;
     }
 
     return (
@@ -156,8 +158,7 @@ class Game extends Component {
 
         <div className="game-info">
           <section className="status">{ status }</section>
-          {/* check for is game over */}
-          {(winner !== null || gameBoardFull) ?
+          {this.state.isGameOver ?
             <div className="play-again-button" onClick={ this.restartGame }>
               Play Again
             </div> :
@@ -169,8 +170,8 @@ class Game extends Component {
           <Board
             squares={ this.state.squares }
             onClick={ (i) => this.handleClick(i) }
-            winningSquares= { winningSquares }
-            isGameOver={ isGameOver }
+            winningSquares= { this.state.winningSquares }
+            isGameOver={ this.state.isGameOver }
           />
         </div>
       </div>

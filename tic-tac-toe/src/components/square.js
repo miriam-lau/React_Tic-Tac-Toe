@@ -6,14 +6,14 @@ import React from 'react';
     {boolean} true is square is a winningSquare
     {boolean} true if game is over
     {function onClick} calls handleClick function in index.js
-  @return {html element div} square 
+  @return {html element div} square
 */
 const Square = (props) => {
   let gameOverStatus = "";
   if (props.isWinningSquare) {
     gameOverStatus = "winning-square";
   } else if (props.isGameOver) {
-    gameOverStatus = "game-over-square"
+    gameOverStatus = "game-over-square";
   }
 
   return(
