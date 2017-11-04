@@ -26,9 +26,7 @@ class Game extends Component {
       winningSquares: [] // {array} indices of winning squares
     };
 
-    // why does restartGame need to bind this and not the other functions?
      this.restartGame = this.restartGame.bind(this);
-    //  this.restartGame();  warning: called this.setState on a unmounted component
   }
 
   /*
