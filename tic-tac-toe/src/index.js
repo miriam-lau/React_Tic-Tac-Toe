@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Board from './components/board';
-import { Players } from './player_list';
+
+/*
+  List of Players.
+  return {string} 'X' if player is Player.ONE, 'O', if player is Player.TWO.
+*/
+const PLAYERS = {
+  ONE: 'X',
+  TWO: 'O'
+}
+
 
 class Game extends Component {
   constructor(props) {
@@ -10,7 +19,7 @@ class Game extends Component {
 
     this.state = {
       squares: initialSquares,
-      currentPlayer: Players.ONE,
+      currentPlayer: PLAYERS.ONE,
       error: ""
     }
 
@@ -19,7 +28,6 @@ class Game extends Component {
 
   /*
     Returns a winner if one exists.
-    @param {array{string}} squares the array representing the current state of the board. Valid values are 'X', 'O', or null.
     return {string} the symbol of the winner or null if there is no winner.
   */
   calculateWinner() {
@@ -64,13 +72,13 @@ class Game extends Component {
   }
 
   /*
-    Re-initialize the game board squares to null.
+    Re-initialize the game board squares to null.hgfhg
   */
   restartGame() {
     const emptySquares = new Array(9).fill(null);
     this.setState({
       squares: emptySquares,
-      currentPlayer: Players.ONE,
+      currentPlayer: PLAYERS.ONE,
       error: ""
     });
 
@@ -82,10 +90,10 @@ class Game extends Component {
   */
   getNextPlayer() {
     switch (this.state.currentPlayer) {
-      case Players.ONE:
-        return Players.TWO;
-      case Players.TWO:
-        return Players.ONE;
+      case PLAYERS.ONE:
+        return PLAYERS.TWO;
+      case PLAYERS.TWO:
+        return PLAYERS.ONE;
       default:
         return null;
     }
@@ -124,8 +132,8 @@ class Game extends Component {
     } else if (gameBoardFull) {
       status = "It's a Tie!";
     } else {
-      let nextPlayer = (this.state.currentPlayer === Players.ONE) ?
-          Players.TWO : Players.ONE;
+      let nextPlayer = (this.state.currentPlayer === PLAYERS.ONE) ?
+          PLAYERS.TWO : PLAYERS.ONE;
       status = `Next Player: ${nextPlayer}`;
     }
 
