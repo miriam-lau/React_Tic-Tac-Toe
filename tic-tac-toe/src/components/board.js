@@ -8,11 +8,22 @@ class Board extends Component {
     @param {function(onClick)} handleClick function from index.js
     return {component} Square component
   */
-  renderSquare(i) {
+  renderSquare(squareIndex) {
+    let isWinningSquare = false;
+    for (let i = 0; i < this.props.winningSquares.length; i++) {
+      if (squareIndex === this.props.winningSquares[i]) {
+        isWinningSquare = true;
+        break;
+      }
+    }
+
     return (
       <Square
-        value={ this.props.squares[i] }
-        onClick={ () => this.props.onClick(i) }
+        index={ squareIndex }
+        isWinningSquare={ isWinningSquare }
+        isGameOver={ this.props.isGameOver }
+        value={ this.props.squares[squareIndex] }
+        onClick={ () => this.props.onClick(squareIndex) }
       />
     );
   }

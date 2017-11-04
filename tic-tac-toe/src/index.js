@@ -20,18 +20,20 @@ class Game extends Component {
     this.state = {
       squares: initialSquares,
       currentPlayer: PLAYERS.ONE,
-      error: ""
+      error: "",
+      winningSquares: []
     }
 
     this.restartGame = this.restartGame.bind(this);
   }
 
   /*
-    Returns a winner if one exists.
-    return {string} the symbol of the winner or null if there is no winner.
+    Returns a winner and winning combo if one exists.
+    return {array{char, array} the symbol of the winner and the indices of the
+      winning combo or null if there is no winner.
   */
   calculateWinner() {
-    const winningCombos = [
+    const WINNING_COMBOS = [
       [0, 1, 2],
       [3, 4, 5],
       [6, 7, 8],
@@ -43,15 +45,16 @@ class Game extends Component {
     ];
 
     const squares = this.state.squares;
-    for (let i = 0; i < winningCombos.length; i++) {
-      if (squares[winningCombos[i][0]] === null) {
+    for (let i = 0; i < WINNING_COMBOS.length; i++) {
+      if (squares[WINNING_COMBOS[i][0]] === null) {
         continue;
       }
 
-      let currentChar = squares[winningCombos[i][0]];
-      if (currentChar === squares[winningCombos[i][1]] &&
-          currentChar === squares[winningCombos[i][2]]) {
-        return currentChar;
+      let currentChar = squares[WINNING_COMBOS[i][0]];
+      if (currentChar === squares[WINNING_COMBOS[i][1]] &&
+          currentChar === squares[WINNING_COMBOS[i][2]]) {
+        // this.setState({ winningSquares: WINNING_COMBOS[i] });
+        return [currentChar, WINNING_COMBOS[i]];
       }
     }
 
@@ -126,11 +129,16 @@ class Game extends Component {
     const winner = this.calculateWinner();
     const gameBoardFull = this.isGameBoardFull();
     let status = "";
+    let winningSquares = [];
+    let isGameOver = false;
 
     if (winner !== null) {
-      status = `Game Over: Winner is Player ${winner}`;
+      status = `Game Over: Winner is Player ${winner[0]}`;
+      winningSquares = winner[1];
+      isGameOver = true;
     } else if (gameBoardFull) {
       status = "It's a Tie!";
+      isGameOver = true;
     } else {
       let nextPlayer = (this.state.currentPlayer === PLAYERS.ONE) ?
           PLAYERS.TWO : PLAYERS.ONE;
@@ -155,6 +163,8 @@ class Game extends Component {
           <Board
             squares={ this.state.squares }
             onClick={ (i) => this.handleClick(i) }
+            winningSquares= { winningSquares }
+            isGameOver={ isGameOver }
           />
         </div>
       </div>

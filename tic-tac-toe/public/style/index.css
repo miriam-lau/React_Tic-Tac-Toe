@@ -103,3 +103,15 @@ h1 {
   background-color: #e6e6e6;
   transition: 0.3s;
 }
+
+.winning-square {
+  background-color: #ffe866;
+}
+
+.winning-square:hover {
+  background-color: #ffe866;
+}
+
+.game-over-square:hover {
+  background-color: white;
+}
