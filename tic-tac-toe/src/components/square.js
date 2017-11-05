@@ -1,24 +1,24 @@
 import React from 'react';
 
-/*
-  Renders a square on the game board.
-  @param {props} the list of props are:
-    {boolean} true is square is a winningSquare
-    {boolean} true if game is over
-    {function onClick} calls handleClick function in index.js
-  @return {html element div} square
+/**
+  * Renders a square on the game board.
+  * @param {prop} the list of props are:
+  * @prop {boolean} true is square is a winningSquare
+  * @prop {boolean} true if game is over
+  * @prop {function onClick} calls handleClick function in index.js
+  * @return {html element div} square
 */
 const Square = (props) => {
-  let gameOverStatus = "";
+  let gameOverClassName = "";
   if (props.isWinningSquare) {
-    gameOverStatus = "winning-square";
+    gameOverClassName = "winning-square";
   } else if (props.isGameOver) {
-    gameOverStatus = "game-over-square";
+    gameOverClassName = "game-over-square";
   }
 
   return(
     <div
-      className={"square " + gameOverStatus}
+      className={"square " + gameOverClassName}
       onClick={ props.onClick }>
         <section>{ props.value }</section>
     </div>

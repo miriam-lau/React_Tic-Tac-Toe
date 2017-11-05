@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Board from './components/board';
 
-/*
-  List of players.
+/**
+  * Enum for list of players.
+  * @readonly
+  * @enum {char}
 */
 const PLAYERS = {
   ONE: 'X',
@@ -16,26 +18,26 @@ class Game extends Component {
     super(props)
 
     this.state = {
-      // {array(PLAYERS?)} 1-D array with squares 0 to 9 row 1: squares 0 - 2,
-      //    row 2: squares 3 - 5, row 3: squares 6 - 8
+      /** @type {Array.<enum ?PLAYERS>} 1-D array with squares 0 to 9 row 1: squares 0 - 2,
+            row 2: squares 3 - 5, row 3: squares 6 - 8 */
       squares: new Array(9).fill(null),
-      // {PLAYERS} player is either 'X' or 'O'
+      /** @type {enum PLAYERS} player is either 'X' or 'O' */
       currentPlayer: PLAYERS.ONE,
-      // {string} error message if user clicks on a non-null-square
+      /** @type {string} error message if user clicks on a non-null-square */
       error: "",
-      // {boolean} is true if game is over
+      /** @type {boolean} is true if game is over */
       isGameOver: false,
-      // {PLAYERS?} the winner
+      /** @type {enum ?PLAYERS} the winner */
       winner: null,
-      // {array(int)} indices of winning squares
+      /** @type {Array.<int>} indices of winning squares */
       winningSquares: []
     };
 
      this.restartGame = this.restartGame.bind(this);
   }
 
-  /*
-    Updates the state properties if there is a winner.
+  /**
+    * Updates the state properties if there is a winner.
   */
   maybeSetWinner() {
     const WINNING_COMBOS = [
@@ -67,10 +69,10 @@ class Game extends Component {
     }
   }
 
-  /*
-    Updates state if game board is full.
+  /**
+    * Updates state if there is a tie.
   */
-  isGameBoardFull() {
+  checkForTie() {
     for (let i = 0; i < this.state.squares.length; i++) {
       if (this.state.squares[i] === null) {
         return;
@@ -79,8 +81,8 @@ class Game extends Component {
     this.setState({ isGameOver: true });
   }
 
-  /*
-    Reinitialize the game.
+  /**
+    * Reinitialize the game.
   */
   restartGame() {
     this.setState({
@@ -93,9 +95,9 @@ class Game extends Component {
     });
   }
 
-  /*
-    Returns the next player.
-    @return {PLAYER?} next player
+  /**
+    * Returns the next player.
+    * @return {?PLAYER} next player
   */
   getNextPlayer() {
     switch (this.state.currentPlayer) {
@@ -108,16 +110,16 @@ class Game extends Component {
     }
   }
 
-  /*
-    Updates state on click event and checks if there is a winner or if the game
-      board is full.
-    @param {int i} the index of square
+  /**
+    * Updates state in response to a click on game board and checks if there is a
+      winner or if the game is over.
+    * @param {int i} the index of square
   */
   handleClick(i) {
     this.setState({ error: "" });
     const newSquares = this.state.squares.slice();
 
-    if (this.maybeSetWinner()) {
+    if (this.state.isGameOver) {
       return;
     }
 
@@ -130,7 +132,7 @@ class Game extends Component {
     this.setState({ squares: newSquares, currentPlayer: this.getNextPlayer()},
       () => {
         this.maybeSetWinner();
-        this.isGameBoardFull();
+        this.checkForTie();
       }
     );
   }
