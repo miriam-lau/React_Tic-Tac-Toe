@@ -3,10 +3,10 @@ import Square from './square';
 
 class Board extends Component {
   /**
-    * Renders a square on the game board.
-    * @param {int squareIndex} index of square
-    * @return {component} Square component
-  */
+   * Renders a square on the game board.
+   * @param {int squareIndex} index of square
+   * @return {component} Square component
+   */
   renderSquare(squareIndex) {
     let isWinningSquare = false;
     for (let i = 0; i < this.props.winningSquares.length; i++) {

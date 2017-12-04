@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import Board from './components/board';
 
 /**
-  * Enum for list of players.
-  * @readonly
-  * @enum {char}
-*/
+ * Enum for list of players.
+ * @readonly
+ * @enum {char}
+ */
 const PLAYERS = {
   ONE: 'X',
   TWO: 'O'
@@ -18,8 +18,8 @@ class Game extends Component {
     super(props)
 
     this.state = {
-      /** @type {Array.<enum ?PLAYERS>} 1-D array with squares 0 to 9 row 1: squares 0 - 2,
-            row 2: squares 3 - 5, row 3: squares 6 - 8 */
+      /** @type {Array.<enum ?PLAYERS>} 1-D array with squares 0 to 9
+          (row 1: squares 0 - 2, row 2: squares 3 - 5, row 3: squares 6 - 8) */
       squares: new Array(9).fill(null),
       /** @type {enum PLAYERS} player is either 'X' or 'O' */
       currentPlayer: PLAYERS.ONE,
@@ -33,12 +33,12 @@ class Game extends Component {
       winningSquares: []
     };
 
-     this.restartGame = this.restartGame.bind(this);
+    // this.restartGame = this.restartGame.bind(this);
   }
 
   /**
-    * Updates the state properties if there is a winner.
-  */
+   * Updates the state properties if there is a winner.
+   */
   maybeSetWinner() {
     const WINNING_COMBOS = [
       [0, 1, 2],
@@ -70,8 +70,8 @@ class Game extends Component {
   }
 
   /**
-    * Updates state if there is a tie.
-  */
+   * Updates state if there is a tie.
+   */
   checkForTie() {
     for (let i = 0; i < this.state.squares.length; i++) {
       if (this.state.squares[i] === null) {
@@ -82,8 +82,8 @@ class Game extends Component {
   }
 
   /**
-    * Reinitialize the game.
-  */
+   * Reinitialize the game.
+   */
   restartGame() {
     this.setState({
       squares: new Array(9).fill(null),
@@ -96,9 +96,9 @@ class Game extends Component {
   }
 
   /**
-    * Returns the next player.
-    * @return {?PLAYER} next player
-  */
+   * Returns the next player.
+   * @return {?PLAYER} next player
+   */
   getNextPlayer() {
     switch (this.state.currentPlayer) {
       case PLAYERS.ONE:
@@ -111,10 +111,10 @@ class Game extends Component {
   }
 
   /**
-    * Updates state in response to a click on game board and checks if there is a
-      winner or if the game is over.
-    * @param {int i} the index of square
-  */
+   * Updates state in response to a click on game board and checks if there is a
+   * winner or if the game is over.
+   * @param {int i} the index of square
+   */
   handleClick(i) {
     this.setState({ error: "" });
     const newSquares = this.state.squares.slice();
@@ -155,7 +155,8 @@ class Game extends Component {
         <div className="game-info">
           <section className="status">{ status }</section>
           {this.state.isGameOver ?
-            <div className="play-again-button" onClick={ this.restartGame }>
+            <div className="play-again-button"
+                onClick={ (e) => this.restartGame(e) }>
               Play Again
             </div> :
             <section className="error">{ this.state.error }</section>
